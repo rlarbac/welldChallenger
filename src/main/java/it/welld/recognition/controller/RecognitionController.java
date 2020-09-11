@@ -1,0 +1,44 @@
+package it.welld.recognition.controller;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import it.welld.recognition.model.Line;
+import it.welld.recognition.model.Point;
+import it.welld.recognition.service.PlaneService;
+
+@RestController
+public class RecognitionController {
+
+	@Autowired
+	private PlaneService service;	
+	
+	@PostMapping("/point") 
+	public void addPoint(@RequestBody Point point) {
+		service.addPoint(point);
+	}
+	
+	@DeleteMapping("/space")
+	public void deleteSpace() {
+		service.clearAll();
+	}
+	
+	@GetMapping("/space") 
+	public Collection<Point> getPoints() {
+		return service.getPoints();
+	}
+
+	@GetMapping("/lines/{n}") 
+	public List<Line> getLines(@PathVariable(name = "n") int quantifyOfpoints) {
+		return service.getLinesByNumberOfPoints(quantifyOfpoints);
+	}
+	
+}
