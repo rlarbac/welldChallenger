@@ -13,8 +13,8 @@ import java.util.TreeSet;
 import org.springframework.stereotype.Service;
 
 import it.welld.recognition.model.Line;
-import it.welld.recognition.model.Point;
 import it.welld.recognition.model.Line.LineType;
+import it.welld.recognition.model.Point;
 
 @Service
 public class PlaneServiceImpl implements PlaneService {
@@ -144,6 +144,35 @@ public class PlaneServiceImpl implements PlaneService {
 		PlaneServiceImpl.lines.clear();
 	}
 	
+	public List<Set<Point>> getAllPointsFromEachLineByNumberOfPoints(int number) {
+		
+		Map<Integer, List<Set<Point>>> linesPoint = new TreeMap<Integer, List<Set<Point>>>();
+		
+		for (Line line : PlaneServiceImpl.lines) {
+			int size = line.getPoints().size();
+		
+			if (linesPoint.get(size)== null) {
+				linesPoint.put(size, new ArrayList<Set<Point>>());
+			}
+			linesPoint.get(size).add(line.getPoints());
+		}
+				
+		List<Integer> quantities = new ArrayList<Integer>(linesPoint.keySet());
+		List<Set<Point>> pointsfromEachLine = new ArrayList<Set<Point>>();
+		
+	    int index = Collections.binarySearch(quantities, number);
+    	
+	    if (index < 0) {
+	    	index = Math.abs(index)-1;	    	
+	    }
+    	
+    	for (int i = index; i < quantities.size(); i++) {
+    		pointsfromEachLine.addAll(linesPoint.get(quantities.get(i)));
+	    }
+	    		
+		return pointsfromEachLine;
+	}
+	
 	public List<Line> getLinesByNumberOfPoints(int number) {
 		
 		Map<Integer, List<Line>> linesPoint = new TreeMap<Integer, List<Line>>();
@@ -172,4 +201,5 @@ public class PlaneServiceImpl implements PlaneService {
 	    		
 		return lines;
 	}	
+	
 }

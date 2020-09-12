@@ -2,6 +2,7 @@ package it.welld.recognition.controller;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +38,14 @@ public class RecognitionController {
 	}
 
 	@GetMapping("/lines/{n}") 
-	public List<Line> getLines(@PathVariable(name = "n") int quantifyOfpoints) {
+	public List<Set<Point>> getLines(@PathVariable(name = "n") int quantifyOfpoints) {
+		return service.getAllPointsFromEachLineByNumberOfPoints(quantifyOfpoints);
+	}
+	
+	@GetMapping("/linesWithMoreInformation/{n}") 
+	public List<Line> getLinesWithMoreInformation(@PathVariable(name = "n") int quantifyOfpoints) {
 		return service.getLinesByNumberOfPoints(quantifyOfpoints);
 	}
+	
 	
 }
