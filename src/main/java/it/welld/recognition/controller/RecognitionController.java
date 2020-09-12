@@ -38,7 +38,7 @@ public class RecognitionController {
 	}
 
 	@GetMapping("/lines/{n}") 
-	public List<Set<Point>> getLines(@PathVariable(name = "n") int quantifyOfpoints) {
+	public List<Set<Point>> getAllPointsFromEachLineByNumberOfPoints(@PathVariable(name = "n") int quantifyOfpoints) {
 		return service.getAllPointsFromEachLineByNumberOfPoints(quantifyOfpoints);
 	}
 	
