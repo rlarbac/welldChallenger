@@ -16,6 +16,11 @@ import it.welld.recognition.model.Line;
 import it.welld.recognition.model.Point;
 import it.welld.recognition.service.PlaneService;
 
+/**
+ * The class has a responsibility to provide all REST services from this project.
+ * @author rlarb
+ *
+ */
 @RestController
 public class RecognitionController {
 

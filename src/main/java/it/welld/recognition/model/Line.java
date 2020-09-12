@@ -3,18 +3,40 @@ package it.welld.recognition.model;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * This class defines a line object.
+ * In order to do it, defines its state with gradient, constant and type.
+ * @author Rodrigo
+ *
+ */
 public class Line implements Comparable<Line> {
 	
+	/**
+	 * A convenient constructor for a line that has an increasing or declining trend.
+	 * @param gradient
+	 * @param constant
+	 */
 	public Line(double gradient, double constant) {
 		this(gradient, constant, LineType.DIAGONAL);
 	}
 	
+	/**
+	 * A constructor for line that can be vertical, horizontal or diagonal.
+	 * @param gradient
+	 * @param constant
+	 */
 	public Line(double gradient, double constant, LineType type) {
 		this.gradient = gradient;
 		this.constant = constant;
 		this.type = type;
 	}
 	
+	/**
+	 * An enumeration that describes the type of line.
+	 * It can be: HORIZONTAL (gradient is zero), VERTICAL (gradient is not a number) or DIAGONAL (if it is not zero or NaN).
+	 * @author rlarb
+	 *
+	 */
 	public enum LineType {
 		HORIZONTAL,
 		VERTICAL,
@@ -56,6 +78,12 @@ public class Line implements Comparable<Line> {
 		return result;
 	}
 
+	/**
+     * One line is the same as another, only if it has 
+     * the same gradient, constant and type.
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,6 +102,12 @@ public class Line implements Comparable<Line> {
 		return true;
 	}
 
+	/**
+     * This method is used by some kind of Set collections in order
+     * to sorted the items inside the collection.
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Line other) {
 		
