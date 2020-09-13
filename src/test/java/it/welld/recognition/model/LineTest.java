@@ -1,4 +1,4 @@
-package it.welld.recognition.service;
+package it.welld.recognition.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
