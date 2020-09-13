@@ -11,8 +11,8 @@ public interface PlaneService {
 
 	/**
 	 * This method receives a new point and adds to the space.
-	 * If the new point already in the space, it returns false (in other words, nothing happened),
-	 * Otherwise, it returns true (the point was added to the space)
+	 * If the new point already in the space, it returns false (in other words, nothing happens),
+	 * Otherwise, it returns true (the new point is added to the space)
 	 * @param newPoint
 	 * @return boolean 
 	 */

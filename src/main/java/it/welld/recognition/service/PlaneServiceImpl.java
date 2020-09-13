@@ -23,7 +23,7 @@ public class PlaneServiceImpl implements PlaneService {
 	private static Set<Point> points = new LinkedHashSet<Point>();
 	
 	/**
-	 * The method add a new point to the space.
+	 * The method add a new point to the space. If the point already exists in the space, it returns false.
 	 * @return boolean if a point was added to the space, it returns true, otherwise false.
 	 */
 	@Override
@@ -55,9 +55,9 @@ public class PlaneServiceImpl implements PlaneService {
 	
 	/**
 	 * After the second point, it is necessary to check all straight-line equations in the space. 
-	 * In other words, if this new point and other one in the space do not build a new straight-line equation,
-	 * The new point should be added an existing one. 
-	 * Otherwise, It should be created a new line in the space with this set of points (the new point and the existing one) and add to the space. 
+	 * In other words, if this new point and one already in the space do not build a new straight-line equation,
+	 * the new point should be added an existing line (i.e. the same straight-line equation). 
+	 * Otherwise, It should be created a new line in the space with this set of points (the new point and the existing one). 
 	 * @param newPoint a new point
 	 */
 	private void afterTheSecondPoint(Point newPoint) {
@@ -126,7 +126,7 @@ public class PlaneServiceImpl implements PlaneService {
 	}
 	
 	/**
-	 * The method removes all the points from the space. 
+	 * The method removes all points from the space. 
 	 * In the end, the space will be empty.
 	 */
 	@Override
