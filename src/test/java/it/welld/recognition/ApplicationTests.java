@@ -23,7 +23,7 @@ import it.welld.recognition.service.PlaneService;
 
 /**
  * My intention with this class is only to test the communication between the controller and REST call.
- * All the tests about the code/algorithm already done.
+ * All the tests about the code/algorithm are already done.
  * @author Rodrigo
  *
  */
@@ -70,7 +70,7 @@ class ApplicationTests {
 			      .contentType(MediaType.APPLICATION_JSON)
 			      .accept(MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print());
 
-			      mockMvc.perform(post("/point")
+	    mockMvc.perform(post("/point")
 			      .content(mapper.writeValueAsString(new Point(3.0, 1.0)))
 			      .contentType(MediaType.APPLICATION_JSON)
 			      .accept(MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print());		

@@ -56,6 +56,12 @@ Remove all points from the space
 DELETE /space
 ```
 
+Additionally, I created another service that works like /lines/{n}. However, it returns some additional information such as gradient (slope), constant and line type (Vertical, Horizontal, Upward and Downward).
+
+```sh
+GET /lineswithmetadata/{n}
+```
+
 ### Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot)
