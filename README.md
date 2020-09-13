@@ -24,7 +24,7 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
-  * [Built With](#built-with)
+* [Built With](#built-with)
 * [Usage](#usage)
 ** [License](#license)
 * [Contact](#contact)
