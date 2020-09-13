@@ -205,23 +205,4 @@ public class PlaneServiceImpl implements PlaneService {
 	    		
 		return lines;
 	}	
-	
-	public static void main(String ...args) {
-		
-		PlaneService service = new PlaneServiceImpl();
-		
-	    //Vertical line
-		Point pA = new Point(0,0);
-		Point pB = new Point(2,2);
-		Point pC = new Point(-2,-2);
-		Point pD = new Point(0,1);
-		
-		service.addPoint(pA);
-		service.addPoint(pB);
-		service.addPoint(pC);	
-		service.addPoint(pD);
-		
-		List<Line> lines = service.getLinesByNumberOfPoints(1);
-		lines.size();
-	}
 }
