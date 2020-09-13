@@ -1,13 +1,6 @@
 <!-- Programming Test - Pattern Recognition -->
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+<!-- PROJECT SHIELDS -->
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -92,3 +85,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Rodrigo Cabral de Azevedo - rlarbac@gmail.com
 
 Project Link: [https://github.com/rlarbac/welldChallenger](https://github.com/rlarbac/welldChallenger)
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/rodrigo-de-azevedo/
+
