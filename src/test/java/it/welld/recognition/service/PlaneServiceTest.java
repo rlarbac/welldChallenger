@@ -83,31 +83,33 @@ class PlaneServiceTest {
 		Point pD = new Point(-1,2);
 		Point pE = new Point(4,2);
 		Point pF = new Point(2,2);
-		Point pG = new Point(0,2);
-		Point pH = new Point(1,2);
 		service.addPoint(pD);
 		service.addPoint(pE);
 		service.addPoint(pF);
-		service.addPoint(pG);
-		service.addPoint(pH);
 
 	    //Upward line
-		Point pI = new Point(1,2);
-		Point pJ = new Point(2,4);
-		Point pL = new Point(-1,-2);
-		Point pM = new Point(-2,-4);
+		Point pG = new Point(1,2);
+		Point pH = new Point(2,4);
+		Point pI = new Point(-1,-2);
+		service.addPoint(pG);
+		service.addPoint(pH);
 		service.addPoint(pI);
-		service.addPoint(pJ);
-		service.addPoint(pL);
-		service.addPoint(pM);
+
 
 		//Downward line
-		Point pN = new Point(1,4);
-		Point pO = new Point(3,2);
-		service.addPoint(pN);
-		service.addPoint(pO);
+		Point pL = new Point(1,4);
+		Point pM = new Point(3,2);
+		service.addPoint(pL);
+		service.addPoint(pM);
 		
-		assertEquals(39, service.getLinesByNumberOfPoints(1).size());
+		assertEquals(32, service.getLinesByNumberOfPoints(1).size());
+		assertEquals(32, service.getLinesByNumberOfPoints(2).size());
+		assertEquals(4, service.getLinesByNumberOfPoints(3).size());
+		assertEquals(2, service.getLinesByNumberOfPoints(4).size());
+		assertEquals(1, service.getLinesByNumberOfPoints(5).size());
+		assertEquals(1, service.getLinesByNumberOfPoints(6).size());
+		assertEquals(0, service.getLinesByNumberOfPoints(7).size());		
+		assertEquals(0, service.getLinesByNumberOfPoints(8).size());		
 	}
 	
 	
