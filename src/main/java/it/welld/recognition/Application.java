@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * This class is the start point of the SpringBoot project.
- * @author rlarb
+ * @author Rodrigo
  *
  */
 @SpringBootApplication

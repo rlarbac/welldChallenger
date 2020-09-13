@@ -3,6 +3,7 @@ package it.welld.recognition.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import java.util.TreeSet;
 import org.springframework.stereotype.Service;
 
 import it.welld.recognition.model.Line;
-import it.welld.recognition.model.Line.LineType;
 import it.welld.recognition.model.Point;
 
 @Service
@@ -24,10 +24,10 @@ public class PlaneServiceImpl implements PlaneService {
 	
 	/**
 	 * The method add a new point to the space.
-	 * @return boolean if a point was added, it returns true, otherwise false.
+	 * @return boolean if a point was added to the space, it returns true, otherwise false.
 	 */
 	@Override
-	public boolean addPoint(Point newPoint) {
+	public synchronized boolean addPoint(Point newPoint) {
 				
 		if (points.contains(newPoint)) {
 			return false;
@@ -42,106 +42,58 @@ public class PlaneServiceImpl implements PlaneService {
 		if (lines.isEmpty()) {
 			
 			Point firstPoint = points.iterator().next();
-			isAppendNewLine(firstPoint, newPoint);
+			Line newLine = Line.newInstance(firstPoint, newPoint);
+			lines.add(newLine);
 			return true;
 			
 		}
 		
-		// Upon adding a new point to the space, if it is not the first one, 
-		// I have to verify all the possibilities in order to build a new line
-		// or to be added to existed one.
-		Line[] linesArray = lines.toArray(new Line[] {});
-		for (Line line : linesArray) {
-			
-			Point[] points = line.getPoints().toArray(new Point[] {});
-			for (Point point : points ) {
-				
-				if (!isAppendNewLine(point, newPoint)) {
-					break;
-				}
-			}
-			
-		}
+		afterTheSecondPoint(newPoint);
+		
 		return true;		
 	}
 	
 	/**
-	 * The method receives a point from an existing line and a new point,
-	 * it verifies whether the line with these points already exists or not.
-	 * if it is already exists, the method add a new point to an existent line. In that case, returns false.
-	 * otherwise, it adds a new line to the space, in that case, returns true.   
-	 * @param linePoint a point from an existent line.
+	 * After the second point, it is necessary to check all straight-line equations in the space. 
+	 * In other words, if this new point and other one in the space do not build a new straight-line equation,
+	 * The new point should be added an existing one. 
+	 * Otherwise, It should be created a new line in the space with this set of points (the new point and the existing one) and add to the space. 
 	 * @param newPoint a new point
-	 * @return boolean if a line was added, it returns true. Otherwise, false. 
 	 */
-	private boolean isAppendNewLine(Point linePoint, Point newPoint) {
+	private void afterTheSecondPoint(Point newPoint) {
 
-		Line newLine = createLine(linePoint, newPoint);
+		// First, the below block check all necessary modifications.
+		List<Line> newLines = new ArrayList<Line>();
+		Map<Line, Point> lineAndPoint = new HashMap<Line, Point>();
 
-		Line lineSearched = findBy(newLine);
-
-		if (lineSearched != null) {
-
-			// Add a new point.
-			lineSearched.getPoints().add(newPoint);
-			return false;		
-		} 
-
-		lines.add(newLine);
-		return true;
+		for (Line line : lines) {
 			
-	}
-	
-	/**
-	 * The method had the responsibility to create an object Line with the point a and b.
-	 * In the end,it creates an object line with the gradient, constant and type (LineType enum) from the Y = MX + C equation.  
-	 * @param a first point.
-	 * @param b second point.
-	 * @return an object Line.
-	 */
-	private Line createLine(Point a, Point b) { 
-		
-		// Verify the gradient (m) and constant (c) for the equation y = mx + c.
-		double y = b.getY() - a.getY();
-		double x = b.getX() - a.getX();
-		
-		// Gradient
-		double m;
-		
-		// Constant
-		double c;
-		
-		Line line = null;
-		
-		// Horizontal line
-		if (y == 0.0) {
-			m = 0.0;
-			c = a.getY();
+			for (Point point : line.getPoints() ) {
+				
+				Line newLine = Line.newInstance(point, newPoint);
+				Line lineSearched = findBy(newLine);
+				
+				if (lineSearched != null) {
+					lineAndPoint.put(lineSearched, newPoint);
+					break;
 					
-			line = new Line(m, c, LineType.HORIZONTAL);
-			
-		} // Vertical line
-		  else if (x == 0.0) {
-			m = Double.NaN;  
-			c = a.getX();
-			line = new Line(m, c, LineType.VERTICAL);
-			
-		} else {
-			m = y / x;
-			c = -m*a.getX() + a.getY(); // c = -mx + y
-			line = new Line(m, c);
+				} else {
+					newLines.add(newLine);
+				}
+			}
 		}
 		
-		line.getPoints().add(a);
-		line.getPoints().add(b);
+		// Then, it is crucial to commit the modifications...
+		lines.addAll(newLines);
 		
-		return line;
+		for (Line line : lineAndPoint.keySet()) {
+			line.getPoints().add(lineAndPoint.get(line));
+		}			
 	}
 	
 	/**
-	 * The method check if a line already exists in the space. 
-	 * In other words, if there is a line with the same gradient, constant and type.
-	 * If the line exists, it returns the line.
+	 * The method searches if the given line by the parameter "line" already exists in the space. 
+	 * In other words, if there is a line with the same straight-line equation (gradient and constant), it returns this line.
 	 * Otherwise, it returns null.
 	 * @param line A line that the method searches.
 	 * @return the line searched or null
@@ -174,7 +126,8 @@ public class PlaneServiceImpl implements PlaneService {
 	}
 	
 	/**
-	 * The method removes all the points from the space. In the end, the space will be empty.
+	 * The method removes all the points from the space. 
+	 * In the end, the space will be empty.
 	 */
 	@Override
 	public void clearAll() {
@@ -184,7 +137,7 @@ public class PlaneServiceImpl implements PlaneService {
 	
 	/**
 	 * The method returns all points from each line that has at least the number of points given by the parameter named as "number".
-	 * @param number the maximum number of points that the line must have.
+	 * @param number the minimum number of points that the line must have.
 	 * @return list It returns a list of set of points from each line.
 	 */ 
 	@Override
@@ -220,7 +173,7 @@ public class PlaneServiceImpl implements PlaneService {
 	/**
 	 * The method returns all lines (with their properties - gradient, constant and type)
 	 * that have at least the number of points given by the parameter named as "number".
-	 * @param number the maximum number of points that the line must have.
+	 * @param number the minimum number of points that the line must have.
 	 * @return list It returns a list of lines.
 	 */ 
 	@Override

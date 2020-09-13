@@ -1,7 +1,9 @@
 package it.welld.recognition.controller;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import it.welld.recognition.service.PlaneService;
 
 /**
  * The class has a responsibility to provide all REST services from this project.
- * @author rlarb
+ * @author Rodrigo
  *
  */
 @RestController
@@ -28,8 +30,8 @@ public class RecognitionController {
 	private PlaneService service;	
 	
 	@PostMapping("/point") 
-	public void addPoint(@RequestBody Point point) {
-		service.addPoint(point);
+	public Map<String, Boolean> addPoint(@RequestBody Point point) throws Exception {
+		return Collections.singletonMap("result", service.addPoint(point));
 	}
 	
 	@DeleteMapping("/space")
@@ -47,7 +49,7 @@ public class RecognitionController {
 		return service.getAllPointsFromEachLineByNumberOfPoints(quantifyOfpoints);
 	}
 	
-	@GetMapping("/linesWithMoreInformation/{n}") 
+	@GetMapping("/lineswithmetadata/{n}") 
 	public List<Line> getLinesWithMoreInformation(@PathVariable(name = "n") int quantifyOfpoints) {
 		return service.getLinesByNumberOfPoints(quantifyOfpoints);
 	}
