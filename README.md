@@ -42,12 +42,100 @@ Get all points in the space
 ```sh
 GET /space
 ```
+Scenario:
+```sh
+POST /point{ "x": 0.0, "y": 2.0 }
+POST /point{ "x": 2.0, "y": 2.0 }
+POST /point{ "x": 0.0, "y": 0.0 }
+POST /point{ "x": 0.0, "y": -2.0 }
+GET /space
+```
+Output JSON ( GET /space ):
+```sh
+[
+    {
+        "x": 0.0,
+        "y": -2.0
+    },
+    {
+        "x": 0.0,
+        "y": 2.0
+    },
+    {
+        "x": 0.0,
+        "y": 0.0
+    },
+    {
+        "x": 2.0,
+        "y": 2.0
+    }
+]
+```
+
 
 Get all line segments passing through at least N points. Note that a line segment should be a set of
 points.
 
 ```sh
 GET /lines/{n}
+```
+
+Scenario:
+```sh
+POST /point{ "x": 0.0, "y": 2.0 }
+POST /point{ "x": 2.0, "y": 2.0 }
+POST /point{ "x": 0.0, "y": 0.0 }
+POST /point{ "x": 0.0, "y": -2.0 }
+GET /lines/2
+```
+Output JSON ( GET /lines/2 ):
+```sh
+[
+    [
+        {
+            "x": 0.0,
+            "y": 2.0
+        },
+        {
+            "x": 2.0,
+            "y": 2.0
+        }
+    ],
+    [
+        {
+            "x": 0.0,
+            "y": 0.0
+        },
+        {
+            "x": 2.0,
+            "y": 2.0
+        }
+    ],
+    [
+        {
+            "x": 0.0,
+            "y": -2.0
+        },
+        {
+            "x": 2.0,
+            "y": 2.0
+        }
+    ],
+    [
+        {
+            "x": 0.0,
+            "y": -2.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0
+        },
+        {
+            "x": 0.0,
+            "y": 2.0
+        }
+    ]
+]
 ```
 
 Remove all points from the space
@@ -62,8 +150,6 @@ Additionally, I created another service that works like /lines/{n}. However, it 
 GET /lineswithmetadata/{n}
 ```
 
-An output example:
-
 Scenario:
 ```sh
 POST /point{ "x": 0.0, "y": 2.0 }
@@ -73,7 +159,7 @@ POST /point{ "x": 0.0, "y": -2.0 }
 GET /lineswithmetadata/2
 ```
 
-Output JSON (GET /lineswithmetadata/2):
+Output JSON ( GET /lineswithmetadata/2 ):
 ```sh
 [
     {
