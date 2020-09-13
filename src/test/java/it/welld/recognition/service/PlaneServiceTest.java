@@ -107,7 +107,7 @@ class PlaneServiceTest {
 		service.addPoint(pN);
 		service.addPoint(pO);
 		
-		assertEquals(37, service.getLinesByNumberOfPoints(1).size());
+		assertEquals(39, service.getLinesByNumberOfPoints(1).size());
 	}
 	
 	

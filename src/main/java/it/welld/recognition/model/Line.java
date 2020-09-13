@@ -47,11 +47,14 @@ public class Line implements Comparable<Line> {
 		if (a.equals(b)) {
 			throw new IllegalStateException("Point a and b cannot be the same!");
 		}
+		
+		//Point w = (a.compareTo(b)>0)? a: b;
+		//Point z = (a.compareTo(b)<0)? a: b;
 
 		// Equation of a Straight Line
 		// Verify the gradient (m) and constant (c) for the equation y = mx + c.
-		double y = b.getY() - a.getY();
-		double x = b.getX() - a.getX();
+		double y = a.getY() - b.getY();
+		double x = a.getX() - b.getX();
 		
 		// Gradient
 		double m;
@@ -80,10 +83,6 @@ public class Line implements Comparable<Line> {
 		line = new Line(m, c);
 		line.getPoints().add(a);
 		line.getPoints().add(b);
-		
-		if (line.getPoints().size() == 1) {
-			System.out.println("Point A: x: " + a.getX() + " y: " + a.getY() + ", Point B: x: " + b.getX() + " y: " + b.getY());
-		}
 		
 		return line;
 	}
@@ -174,10 +173,10 @@ public class Line implements Comparable<Line> {
 		if (Double.isNaN(this.gradient) && !Double.isNaN(other.gradient)) {
 			return -1;
 			
-		} else if (!Double.isNaN(this.gradient) && Double.isNaN(this.gradient)) {
+		} else if (!Double.isNaN(this.gradient) && Double.isNaN(other.gradient)) {
 			return 1;
 		
-		} else if (Double.isNaN(this.gradient) && Double.isNaN(this.gradient)) {
+		} else if (Double.isNaN(this.gradient) && Double.isNaN(other.gradient)) {
 			
 			return Double.valueOf(this.constant).compareTo(other.constant);
 			
