@@ -62,6 +62,72 @@ Additionally, I created another service that works like /lines/{n}. However, it 
 GET /lineswithmetadata/{n}
 ```
 
+An output example:
+
+Scenario:
+```sh
+POST /point{ "x": 0.0, "y": 2.0 }
+POST /point{ "x": 2.0, "y": 2.0 }
+POST /point{ "x": 0.0, "y": 0.0 }
+POST /point{ "x": 0.0, "y": -2.0 }
+GET /lineswithmetadata/2
+```
+
+Output JSON (GET /lineswithmetadata/2):
+```sh
+[
+    {
+        "gradient": 0.0,
+        "constant": 2.0,
+        "type": "HORIZONTAL",
+        "points": [
+            {
+                "x": 0.0,
+                "y": 2.0
+            },
+            {
+                "x": 2.0,
+                "y": 2.0
+            }
+        ]
+    },
+    {
+        "gradient": 1.0,
+        "constant": 0.0,
+        "type": "UPWARD",
+        "points": [
+            {
+                "x": 0.0,
+                "y": 0.0
+            },
+            {
+                "x": 2.0,
+                "y": 2.0
+            }
+        ]
+    },
+    {
+        "gradient": "NaN",
+        "constant": 0.0,
+        "type": "VERTICAL",
+        "points": [
+            {
+                "x": 0.0,
+                "y": -2.0
+            },
+            {
+                "x": 0.0,
+                "y": 0.0
+            },
+            {
+                "x": 0.0,
+                "y": 2.0
+            }
+        ]
+    }
+]
+```
+
 ### Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot)
